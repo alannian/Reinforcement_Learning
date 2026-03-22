@@ -7,9 +7,9 @@ import random
 import gym
 import numpy as np
 from collections import deque
-from keras.models import Model, load_model
-from keras.layers import Input, Dense
-from keras.optimizers import Adam, RMSprop
+from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.layers import Input, Dense
+from tensorflow.keras.optimizers import Adam, RMSprop
 
 
 def OurModel(input_shape, action_space):
@@ -28,8 +28,8 @@ def OurModel(input_shape, action_space):
     # Output Layer with # of actions: 2 nodes (left, right)
     X = Dense(action_space, activation="linear", kernel_initializer='he_uniform')(X)
 
-    model = Model(inputs = X_input, outputs = X, name='CartPole DQN model')
-    model.compile(loss="mse", optimizer=RMSprop(lr=0.00025, rho=0.95, epsilon=0.01), metrics=["accuracy"])
+    model = Model(inputs = X_input, outputs = X, name='CartPole_DQN_model')
+    model.compile(loss="mse", optimizer=RMSprop(learning_rate=0.00025, rho=0.95, epsilon=0.01), metrics=["accuracy"])
 
     model.summary()
     return model
@@ -133,7 +133,7 @@ class DQNAgent:
                     if i == 500:
                         print("Saving trained model as cartpole-dqn.h5")
                         self.save("cartpole-dqn.h5")
-                        return
+                        # return
                 self.replay()
 
     def test(self):
@@ -155,5 +155,5 @@ class DQNAgent:
 
 if __name__ == "__main__":
     agent = DQNAgent()
-    #agent.run()
+    # agent.run()
     agent.test()
